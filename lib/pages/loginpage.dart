@@ -11,6 +11,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
   
   @override
   void dispose() {
@@ -21,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+      
       try {
         await AuthViewModel().signInWithEmailAndPassword(
           email: _emailController.text,
@@ -55,55 +58,123 @@ class _LoginPageState extends State<LoginPage> {
           
           mostrarMensagem(context, errorMessage, tipo: TipoMensagem.erro);
         }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
-      ),
       body: Center(
-        child: Form(
-          key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-              children: [
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo/Ícone
+              Icon(
+                Icons.local_gas_station_rounded,
+                size: 80,
+                color: theme.colorScheme.primary,
+              ),
+              SizedBox(height: 16),
+              
+              // Título
+              Text(
+                'Controle de Abastecimento',
+                style: theme.textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Faça login para continuar',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurface.withOpacity(0.6),
                 ),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
+              ),
+              SizedBox(height: 48),
+              
+              // Formulário
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira seu email';
+                        }
+                        if (!value.contains('@')) {
+                          return 'Email inválido';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                        prefixIcon: Icon(Icons.lock_outline),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira sua senha';
+                        }
+                        if (value.length < 6) {
+                          return 'A senha deve ter no mínimo 6 caracteres';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 32),
+                    
+                    // Botão Login
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : _login,
+                        child: _isLoading
+                            ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: theme.colorScheme.onPrimary,
+                                ),
+                              )
+                            : Text('Entrar'),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    
+                    // Botão Registrar
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, 'registrousuario');
+                      },
+                      child: Text('Não tem uma conta? Cadastre-se'),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _login,
-                  child: Text('Login'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'registrousuario');
-                  },
-                  child: Text('Register'),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
         ),
       ),
     );

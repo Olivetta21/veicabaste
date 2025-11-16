@@ -5,6 +5,7 @@ import 'package:abast_veiculo/pages/homepage.dart';
 import 'package:abast_veiculo/pages/listaveiculospage.dart';
 import 'package:abast_veiculo/pages/formabastecimentopage.dart';
 import 'package:abast_veiculo/pages/historicoabastecimentopage.dart';
+import 'package:abast_veiculo/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; 
 
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Controle de Abastecimento',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
       initialRoute: '/',
       routes: {
         '/': (context) => LoginPage(),
@@ -35,3 +39,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
