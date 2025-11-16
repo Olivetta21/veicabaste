@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:abast_veiculo/pages/registerpage.dart';
 import 'package:abast_veiculo/pages/loginpage.dart';
 import 'package:abast_veiculo/pages/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginPage(),
-        '/home': (context) => HomePage(),
+        'registrousuario': (context) => RegisterPage(),
+        'home': (context) => HomePage(),
       },
     );
   }
