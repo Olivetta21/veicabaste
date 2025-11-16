@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import '../models/veiculo.dart';
 import '../services/firestoreservice.dart';
 
-class VeiculoViewModel extends ChangeNotifier {
+class VeiculoViewModel {
   final FirestoreService _firestoreService = FirestoreService();
   Stream<List<Veiculo>>? veiculosStream;
 
@@ -14,11 +13,9 @@ class VeiculoViewModel extends ChangeNotifier {
   // Adicionar veículo
   Future<bool> addVeiculo(Veiculo veiculo) async {
     try {
-      final docId = await _firestoreService.addVeiculo(veiculo);
-      print('VeiculoViewModel: Veículo adicionado com ID: $docId');
+      await _firestoreService.addVeiculo(veiculo);
       return true;
     } catch (e) {
-      print('VeiculoViewModel: Erro ao adicionar veículo: $e');
       return false;
     }
   }

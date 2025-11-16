@@ -24,8 +24,6 @@ class _ListaVeiculosPageState extends State<ListaVeiculosPage> {
     final userId = AuthViewModel.userid;    
     if (userId != null) {
       _veiculoViewModel.loadVeiculos(userId);
-    } else {
-      print('ListaVeiculosPage: Nenhum usuário logado!');
     }
   }
 

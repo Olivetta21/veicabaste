@@ -70,6 +70,12 @@ class _RegistrarAbastecimentoPageState extends State<RegistrarAbastecimentoPage>
         _veiculos = await _veiculoViewModel.veiculosStream!.first;
         setState(() {
           _isLoadingVeiculos = false;
+          
+          // Auto-selecionar tipo de combustível do veículo se estiver criando novo
+          if (widget.abastecimento == null && _veiculoIdSelecionado != null) {
+            final veiculo = _veiculos.firstWhere((v) => v.id == _veiculoIdSelecionado);
+            _tipoCombustivel = veiculo.tipoCombustivel;
+          }
         });
       } catch (e) {
         setState(() {
@@ -96,7 +102,6 @@ class _RegistrarAbastecimentoPageState extends State<RegistrarAbastecimentoPage>
       initialDate: _dataSelecionada,
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
-      locale: const Locale('pt', 'BR'),
     );
     if (picked != null && picked != _dataSelecionada) {
       setState(() {
@@ -237,6 +242,11 @@ class _RegistrarAbastecimentoPageState extends State<RegistrarAbastecimentoPage>
                 onChanged: (value) {
                   setState(() {
                     _veiculoIdSelecionado = value;
+                    // Auto-selecionar tipo de combustível do veículo
+                    if (value != null) {
+                      final veiculo = _veiculos.firstWhere((v) => v.id == value);
+                      _tipoCombustivel = veiculo.tipoCombustivel;
+                    }
                   });
                 },
                 validator: (value) {

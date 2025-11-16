@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/authservice.dart';
+import '../theme/theme_provider.dart';
+import '../utils/mensagens.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -51,11 +54,22 @@ class AppDrawer extends StatelessWidget {
               children: [
                 _buildMenuItem(
                   context,
+                  icon: Icons.home,
+                  title: 'Início',
+                  subtitle: 'Voltar para home',
+                  onTap: () {
+                    Navigator.pop(context); // Fecha o drawer
+                    Navigator.pushNamedAndRemoveUntil(context, 'home', (route) => false);
+                  },
+                ),
+                Divider(),
+                _buildMenuItem(
+                  context,
                   icon: Icons.directions_car,
                   title: 'Meus Veículos',
                   subtitle: 'Gerenciar veículos',
                   onTap: () {
-                    Navigator.pop(context); // Fecha o drawer
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, 'listaveiculos');
                   },
                 ),
@@ -79,6 +93,18 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, 'historicoabastecimento');
                   },
                 ),
+                _buildMenuItem(
+                  context,
+                  icon: Icons.bar_chart,
+                  title: 'Gráficos de Consumo',
+                  subtitle: 'Análise e estatísticas',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, 'graficos');
+                  },
+                ),
+                Divider(),
+                _buildThemeToggle(context),
                 Divider(),
                 _buildMenuItem(
                   context,
@@ -90,6 +116,7 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     await AuthService().signOut();
                     if (context.mounted) {
+                      mostrarMensagem(context, 'Você saiu da conta', tipo: TipoMensagem.informacao);
                       Navigator.pushReplacementNamed(context, '/');
                     }
                   },
@@ -138,6 +165,36 @@ class AppDrawer extends StatelessWidget {
         style: theme.textTheme.bodySmall,
       ),
       onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+    );
+  }
+
+  Widget _buildThemeToggle(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    
+    return SwitchListTile(
+      secondary: Icon(
+        themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+        color: theme.colorScheme.primary,
+      ),
+      title: Text(
+        'Tema Escuro',
+        style: theme.textTheme.titleMedium,
+      ),
+      subtitle: Text(
+        themeProvider.isDarkMode ? 'Ativado' : 'Desativado',
+        style: theme.textTheme.bodySmall,
+      ),
+      value: themeProvider.isDarkMode,
+      onChanged: (value) {
+        themeProvider.toggleTheme();
+        mostrarMensagem(
+          context, 
+          'Tema ${value ? "escuro" : "claro"} ativado',
+          tipo: TipoMensagem.informacao,
+        );
+      },
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
     );
   }

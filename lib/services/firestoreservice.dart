@@ -19,7 +19,6 @@ class FirestoreService {
 
   // Buscar veículos do usuário
   Stream<List<Veiculo>> getVeiculos(String userId) {
-    print('FirestoreService: Buscando veículos para userId: $userId');
     try {
       return _firestore
           .collection('veiculos')
@@ -28,7 +27,6 @@ class FirestoreService {
           .map((snapshot) {
         final veiculos = snapshot.docs
             .map((doc) {
-              print('Documento ID: ${doc.id}, Dados: ${doc.data()}');
               return Veiculo.fromJson(doc.data(), doc.id);
             })
             .toList();
@@ -37,7 +35,6 @@ class FirestoreService {
         return veiculos;
       });
     } catch (e) {
-      print('FirestoreService: Erro ao buscar veículos: $e');
       rethrow;
     }
   }
@@ -98,14 +95,12 @@ class FirestoreService {
 
   // Buscar abastecimentos do usuário
   Stream<List<Abastecimento>> getAbastecimentos(String userId) {
-    print('FirestoreService: Buscando abastecimentos para userId: $userId');
     try {
       return _firestore
           .collection('abastecimentos')
           .where('userId', isEqualTo: userId)
           .snapshots()
           .map((snapshot) {
-        print('FirestoreService: Recebidos ${snapshot.docs.length} abastecimentos');
         final abastecimentos = snapshot.docs
             .map((doc) => Abastecimento.fromJson(doc.data(), doc.id))
             .toList();
@@ -114,14 +109,12 @@ class FirestoreService {
         return abastecimentos;
       });
     } catch (e) {
-      print('FirestoreService: Erro ao buscar abastecimentos: $e');
       rethrow;
     }
   }
 
   // Buscar abastecimentos por veículo
   Stream<List<Abastecimento>> getAbastecimentosByVeiculo(String veiculoId) {
-    print('FirestoreService: Buscando abastecimentos para veiculoId: $veiculoId');
     try {
       return _firestore
           .collection('abastecimentos')
@@ -136,7 +129,6 @@ class FirestoreService {
         return abastecimentos;
       });
     } catch (e) {
-      print('FirestoreService: Erro ao buscar abastecimentos do veículo: $e');
       rethrow;
     }
   }

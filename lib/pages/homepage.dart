@@ -102,6 +102,17 @@ class HomePage extends StatelessWidget {
                     color: Colors.green,
                     onTap: () => Navigator.pushNamed(context, 'historicoabastecimento'),
                   ),
+                  SizedBox(height: 12),
+                  
+                  // Card Gráficos
+                  _buildQuickAccessCard(
+                    context,
+                    icon: Icons.bar_chart,
+                    title: 'Gráficos',
+                    subtitle: 'Análise de consumo e gastos',
+                    color: Colors.purple,
+                    onTap: () => Navigator.pushNamed(context, 'graficos'),
+                  ),
                 ],
               ),
             ),
