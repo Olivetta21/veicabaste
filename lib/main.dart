@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:abast_veiculo/pages/registerpage.dart';
 import 'package:abast_veiculo/pages/loginpage.dart';
 import 'package:abast_veiculo/pages/homepage.dart';
+import 'package:abast_veiculo/pages/listaveiculospage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; 
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginPage(),
         'registrousuario': (context) => RegisterPage(),
         'home': (context) => HomePage(),
+        'listaveiculos': (context) => ListaVeiculosPage(),
       },
     );
   }

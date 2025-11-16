@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(onPressed: () {}, child: Text("Seus Veiculos")),
+            ElevatedButton(onPressed: () {Navigator.pushReplacementNamed(context, 'listaveiculos');}, child: Text("Seus Veiculos")),
             SizedBox(height: 20),
             ElevatedButton(onPressed: () {}, child: Text("Seus Abastecimentos")),
             SizedBox(height: 20),
