@@ -1,3 +1,4 @@
+import 'package:abast_veiculo/services/authservice.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +14,23 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home Page'),
       ),
       body: Center(
-        child: Text('Home Page Content'),
+        child: Column(
+          children: [
+            ElevatedButton(onPressed: () {}, child: Text("Seus Veiculos")),
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: () {}, child: Text("Seus Abastecimentos")),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await AuthService().signOut();
+                if (mounted) {
+                  Navigator.pushReplacementNamed(context, '/');
+                }
+              },
+              child: Text('Logout'),
+            ),
+          ],
+        ),
       ),
     );
   }

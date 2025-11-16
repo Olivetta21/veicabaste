@@ -1,4 +1,4 @@
-import 'package:abast_veiculo/services/authservice.dart';
+import 'package:abast_veiculo/viewmodel/authviewmodel.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await AuthService().signInWithEmailAndPassword(
+        await AuthViewModel().signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
