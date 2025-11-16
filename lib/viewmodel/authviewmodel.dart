@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthViewModel {
   final AuthService _authService = AuthService();
-  String? userid;
-  String? mail;
+  static String? userid;
+  static String? mail;
 
   Future signInWithEmailAndPassword({
     required String email,
@@ -15,9 +15,9 @@ class AuthViewModel {
         email: email.trim(),
         password: password,
       );
-      userid = usercred.user?.uid;
-      mail = usercred.user?.email;
-      print('✅ AuthViewModel: Usuário logado: $userid, Email: $mail');
+      AuthViewModel.userid = usercred.user?.uid;
+      AuthViewModel.mail = usercred.user?.email;
+      print('AuthViewModel: Usuário logado: ${AuthViewModel.userid}, Email: ${AuthViewModel.mail}');
       return true;
     } on FirebaseAuthException catch (e) {
       throw e.code;

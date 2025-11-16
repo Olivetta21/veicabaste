@@ -1,5 +1,6 @@
 import 'package:abast_veiculo/viewmodel/authviewmodel.dart';
 import 'package:flutter/material.dart';
+import '../utils/mensagens.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -31,11 +32,28 @@ class _LoginPageState extends State<LoginPage> {
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.toString()),
-            ),
-          );
+          String errorMessage;
+          switch (e.toString()) {
+            case 'user-not-found':
+              errorMessage = 'Usuário não encontrado';
+              break;
+            case 'wrong-password':
+              errorMessage = 'Senha incorreta';
+              break;
+            case 'invalid-email':
+              errorMessage = 'Email inválido';
+              break;
+            case 'user-disabled':
+              errorMessage = 'Usuário desabilitado';
+              break;
+            case 'invalid-credential':
+              errorMessage = 'Credenciais inválidas';
+              break;
+            default:
+              errorMessage = 'Erro no login: ${e.toString()}';
+          }
+          
+          mostrarMensagem(context, errorMessage, tipo: TipoMensagem.erro);
         }
       }
     }

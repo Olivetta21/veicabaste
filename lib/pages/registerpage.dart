@@ -1,5 +1,6 @@
 import 'package:abast_veiculo/services/authservice.dart';
 import 'package:flutter/material.dart';
+import '../utils/mensagens.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -27,15 +28,30 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         if (mounted) {
+          mostrarMensagem(context, 'Conta criada com sucesso!', tipo: TipoMensagem.sucesso);
           Navigator.pushReplacementNamed(context, 'home');
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.toString()),
-            ),
-          );
+          String errorMessage;
+          switch (e.toString()) {
+            case 'email-already-in-use':
+              errorMessage = 'Este email já está em uso';
+              break;
+            case 'weak-password':
+              errorMessage = 'A senha é muito fraca';
+              break;
+            case 'invalid-email':
+              errorMessage = 'Email inválido';
+              break;
+            case 'operation-not-allowed':
+              errorMessage = 'Operação não permitida';
+              break;
+            default:
+              errorMessage = 'Erro ao criar conta: ${e.toString()}';
+          }
+          
+          mostrarMensagem(context, errorMessage, tipo: TipoMensagem.erro);
         }
       }
     }
