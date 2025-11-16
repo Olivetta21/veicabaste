@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "923793178616",
+    "project_id": "veicabaste",
+    "storage_bucket": "veicabaste.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923793178616:android:9e7bc2af59f9984c53e00d",
+        "android_client_info": {
+          "package_name": "com.example.abast_veiculo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYl4LahRhY9FeuGfyQW84z5mToN7_6Be4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
